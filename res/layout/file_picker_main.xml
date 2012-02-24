@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/main_linear_layout"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:layout_alignParentRight="true"
+     android:layout_alignParentTop="true">
+
+     <LinearLayout 
+        android:id="@+id/main_vertical_left"
+        android:orientation="vertical"
+        android:layout_weight="0.3"
+        android:layout_width="0dp"
+	    android:paddingLeft="5dp"
+	    android:paddingTop="5dp"
+	    android:paddingBottom="5dp"
+        android:background="@drawable/dir_list_gradient"
+        android:layout_height="match_parent">
+    	<SearchView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" >
+        </SearchView>
+
+    	<ListView
+    	    android:id="@+id/dir_shortcut_list"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content" >
+    	</ListView>
+
+	</LinearLayout>
+	
+    
+    <LinearLayout 
+        android:id="@+id/main_vertical_right"
+        android:orientation="vertical"
+        android:layout_weight="0.7"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:visibility="gone"
+            android:id="@+id/dir_breadcrumbs"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" >
+        </ScrollView>
+
+        <GridView
+            android:id="@+id/file_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:numColumns="5" >
+        </GridView>
+        
+    </LinearLayout>
+    
+
+</LinearLayout>
