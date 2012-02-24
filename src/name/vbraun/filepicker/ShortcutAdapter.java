@@ -1,6 +1,7 @@
 package name.vbraun.filepicker;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,30 +13,35 @@ import android.widget.TextView;
 
 public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 
-	protected static Shortcut shortcuts[] = {
-		new Shortcut("/",                R.drawable.drive,  "/"),
-		new Shortcut("SD card",          R.drawable.sdcard, "/mnt/sdcard"),
-		new Shortcut("External SD card", R.drawable.sdcard, "/mnt/external_sd"),
-		new Shortcut("USB Stick",        R.drawable.drive,  "/mnt/usbdrive"),
-		new Shortcut("Downloads",        R.drawable.drive,  "/mnt/sdcard/Download"),
-		new Shortcut("Music",            R.drawable.drive,  "/mnt/sdcard/Music"),
-		new Shortcut("Movies",           R.drawable.drive,  "/mnt/sdcard/Movies"),
-		new Shortcut("Pictures",         R.drawable.drive,  "/mnt/sdcard/Pictures"),
-		new Shortcut("Search",           R.drawable.drive,  null)
-	};
-	
+	protected static ArrayList<Shortcut> shortcuts = new ArrayList<Shortcut>();
 	private Context context;
 	
 	public ShortcutAdapter(Context context) {
 		super(context, R.layout.shortcut_item, shortcuts);
 		this.context = context;
+		shortcuts.clear();
+		addShortcut("/",                R.drawable.drive,  "/");
+		addShortcut("SD card",          R.drawable.sdcard, "/mnt/sdcard");
+		addShortcut("External SD card", R.drawable.sdcard, "/mnt/external_sd");
+		addShortcut("USB Stick",        R.drawable.drive,  "/mnt/usbdrive");
+		addShortcut("Downloads",        R.drawable.drive,  "/mnt/sdcard/Download");
+		addShortcut("Music",            R.drawable.drive,  "/mnt/sdcard/Music");
+		addShortcut("Movies",           R.drawable.drive,  "/mnt/sdcard/Movies");
+		addShortcut("Pictures",         R.drawable.drive,  "/mnt/sdcard/Pictures");
+		addShortcut("Search",           R.drawable.drive,  null);
+	}
+	
+	private void addShortcut(String title, int icon, String dirname) {
+		Shortcut s = new Shortcut(title, icon, dirname);
+		if (s.file == null  || !s.file.exists()) return;
+		shortcuts.add(s);
 	}
 	
 	private int indicator_pos = -1;
 	
 	protected void setIndictor(File file) {
-		for (int i=0; i<shortcuts.length; i++) {
-			File f = shortcuts[i].file;
+		for (int i=0; i<shortcuts.size(); i++) {
+			File f = shortcuts.get(i).file;
 			if (f == null) continue;
 			if (f.equals(file)) {
 				indicator_pos = i;
@@ -58,12 +64,11 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
         ImageView icon = (ImageView) layout.findViewById(R.id.shortcut_icon);
         ImageView indicator = (ImageView) layout.findViewById(R.id.shortcut_indicator);
 
-        Shortcut shortcut = shortcuts[position];
+        Shortcut shortcut = getItem(position);
         title.setText(shortcut.title);
         icon.setImageResource(shortcut.icon);
         title.setEnabled(shortcut.enabled);
         icon.setEnabled(shortcut.enabled);
-        
         
         if (indicator_pos == position)
         	indicator.setVisibility(View.VISIBLE);

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_column_width">128dp</dimen>
+    <dimen name="grid_row_height">128dp</dimen>
+    <dimen name="shortcut_height">56dp</dimen>
+    
+</resources>

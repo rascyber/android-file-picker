@@ -5,27 +5,42 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.storage.StorageManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DirListAdapter extends ArrayAdapter<DirListEntry> {
+	private final static String TAG = "DirListAdapter";
 
 	private Context context;
-	
-	private ArrayList<DirListEntry> listing = new ArrayList<DirListEntry>();
-	
-	public DirListAdapter(Context context) {
-		super(context, R.layout.dir_list_entry);
+		
+	public DirListAdapter(Context context, DirList listing) {
+		super(context, R.layout.dir_list_item, listing);
 		this.context = context;
 	}
 	
-	protected void openDirectory(File dir) {
-		listing.clear();
-		for (File entry : dir.listFiles()) 
-			listing.add(new DirListEntry(entry));
-		
-		
-		notifyDataSetChanged();
-	}
 	
+	@Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View layout;
+        if (convertView == null) {
+            layout = LayoutInflater.from(context).inflate(R.layout.dir_list_item, parent, false);
+        } else {
+            layout = convertView;
+        }
+        TextView title = (TextView) layout.findViewById(R.id.grid_title);
+        ImageView icon = (ImageView) layout.findViewById(R.id.grid_icon);
+
+        DirListEntry entry = getItem(position);
+        title.setText(entry.title);
+        icon.setImageResource(entry.icon);
+        return layout;
+    }
+
 	
+
 }

@@ -34,7 +34,10 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 	private ShortcutAdapter shortcutAdapter;
 	
 	private ScrollView dirBreadcrumbScroll;
+	
+	private DirList fileList;
 	private GridView fileGrid;
+	private DirListAdapter fileAdapter;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,14 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
         shortcutList.setAdapter(shortcutAdapter);
         shortcutList.setOnItemClickListener(this);
         
-        dirBreadcrumbScroll = (ScrollView) findViewById(R.id.dir_breadcrumbs);
-        fileGrid = (GridView) findViewById(R.id.file_grid);
         
+        dirBreadcrumbScroll = (ScrollView) findViewById(R.id.dir_breadcrumbs);
+        
+        fileList = new DirList();
+        fileGrid = (GridView) findViewById(R.id.file_grid);
+        fileAdapter = new DirListAdapter(getApplicationContext(), fileList);
+        fileGrid.setOnItemClickListener(this);
+        fileGrid.setAdapter(fileAdapter);
     }
 	
 	@Override
@@ -57,7 +65,9 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 		Log.d(TAG, "onItemClick "+pos);
 		if (adapter.equals(shortcutList)) {
 			Shortcut shortcut = shortcutAdapter.getItem(pos);
-			shortcutAdapter.setIndictor(shortcut.file);
+			openDirectory(shortcut.file);
+		} else if (adapter.equals(fileGrid)) {
+			
 		}
 	}
     
@@ -86,10 +96,17 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
     	super.onPause();
     }
 
+    
+    private void openDirectory(File dir) {
+		shortcutAdapter.setIndictor(dir);
+		fileList.openDirectory(dir);
+		fileAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onResume() {
-    
+    	File sdcard = new File("/mnt/sdcard");
+    	openDirectory(sdcard);
     	super.onResume();
     }
 }
