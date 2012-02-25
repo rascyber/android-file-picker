@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import name.vbraun.filepicker.Shortcut.Type;
+
 public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 
 	protected static ArrayList<Shortcut> shortcuts = new ArrayList<Shortcut>();
@@ -20,36 +22,37 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		super(context, R.layout.shortcut_item, shortcuts);
 		this.context = context;
 		shortcuts.clear();
-		addShortcut("/",                R.drawable.drive,  "/");
-		addShortcut("SD card",          R.drawable.sdcard, "/mnt/sdcard");
-		addShortcut("External SD card", R.drawable.sdcard, "/mnt/external_sd");
-		addShortcut("USB Stick",        R.drawable.drive,  "/mnt/usbdrive");
-		addShortcut("Downloads",        R.drawable.drive,  "/mnt/sdcard/Download");
-		addShortcut("Music",            R.drawable.drive,  "/mnt/sdcard/Music");
-		addShortcut("Movies",           R.drawable.drive,  "/mnt/sdcard/Movies");
-		addShortcut("Pictures",         R.drawable.drive,  "/mnt/sdcard/Pictures");
-		addShortcut("Search",           R.drawable.drive,  null);
+		addShortcut("Up one directory", R.drawable.drive,  Type.UP_DIRECTORY, null);
+		addShortcut("Filesystem",       R.drawable.drive,  Type.ORDINARY_DIR, "/");
+		addShortcut("SD card",          R.drawable.sdcard, Type.ORDINARY_DIR, "/mnt/sdcard");
+		addShortcut("External SD card", R.drawable.sdcard, Type.ORDINARY_DIR, "/mnt/external_sd");
+		addShortcut("USB Stick",        R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/usbdrive");
+		addShortcut("Downloads",        R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Download");
+		addShortcut("Music",            R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Music");
+		addShortcut("Movies",           R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Movies");
+		addShortcut("Pictures",         R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Pictures");
+     // addShortcut("Search",           R.drawable.drive,  Type.SEARCH,       null);
 	}
 	
-	private void addShortcut(String title, int icon, String dirname) {
-		Shortcut s = new Shortcut(title, icon, dirname);
-		if (s.file == null  || !s.file.exists()) return;
+	private void addShortcut(String title, int icon, Type type, String dirname) {
+		Shortcut s = new Shortcut(title, icon, type, dirname);
+		if (s.type.equals(Type.ORDINARY_DIR) && !s.file.exists()) return;
 		shortcuts.add(s);
 	}
 	
 	private int indicator_pos = -1;
 	
 	protected void setIndictor(File file) {
+		indicator_pos = -1;
 		for (int i=0; i<shortcuts.size(); i++) {
 			File f = shortcuts.get(i).file;
 			if (f == null) continue;
 			if (f.equals(file)) {
 				indicator_pos = i;
-				notifyDataSetChanged();
-				return;
+				break;
 			}
 		}
-			
+		notifyDataSetChanged();
 	}
 	
 	@Override

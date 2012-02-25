@@ -9,7 +9,9 @@ public class DirList extends ArrayList<DirListEntry> {
 	
 	protected void openDirectory(File dir) {
 		clear();
-		for (File entry : dir.listFiles())  {
+		File listing[] = dir.listFiles();
+		if (listing == null) return;
+		for (File entry : listing)  {
 			add(new DirListEntry(entry));
 		}
 	}

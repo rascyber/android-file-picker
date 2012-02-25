@@ -19,7 +19,7 @@
 		android:layout_height="wrap_content"
 		android:textColor="@color/black"
 		android:maxLines="1"
+		android:singleLine="true"
 		android:ellipsize="middle"
-		android:clickable="false"
-		android:textAppearance="?android:attr/textAppearanceMedium"/>
+		android:clickable="false"/>
 </LinearLayout>

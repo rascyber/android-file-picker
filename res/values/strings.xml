@@ -2,4 +2,7 @@
 <resources>
     <string name="app_name">File picker</string>
     <string name="search">Search</string>
+    <string name="new_folder_header">Name:</string>
+    <string name="new_folder_ok">Create</string>
+    <string name="new_folder_cancel">Cancel</string>
 </resources>
