@@ -8,9 +8,9 @@ public class DirListEntry {
 		this.file = file;
 		title = file.getName();
 		if (file.isDirectory())
-			icon = R.drawable.folder_large;
+			icon = R.drawable.grid_folder;
 		else
-			icon = R.drawable.unknown;
+			icon = R.drawable.grid_file;
 	}
 	
 	protected String title;

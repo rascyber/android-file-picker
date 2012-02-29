@@ -7,9 +7,10 @@
     <ImageView
         android:id="@+id/shortcut_icon"
         android:gravity="center_vertical"
-        android:layout_width="64dp"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/shortcut_height"
-        android:src="@drawable/drive" />
+        android:paddingRight="8dp"
+        android:src="@drawable/shortcut_folder" />
 
     <TextView
         android:id="@+id/shortcut_title"
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/shortcut_height"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/indicate" />       
+        android:src="@drawable/indicator" />       
         />
 
 </LinearLayout>

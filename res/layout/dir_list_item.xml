@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="@dimen/grid_column_width"
-	android:layout_height="@dimen/grid_row_height"
+	android:layout_height="wrap_content"
 	android:gravity="center_horizontal"
 	android:clickable="false"
 	android:padding="2dp">

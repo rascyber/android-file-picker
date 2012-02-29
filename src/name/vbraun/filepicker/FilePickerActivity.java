@@ -135,7 +135,7 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 		})
 		.setView(view)
 		.setTitle("Create new folder")
-		.setIcon(R.drawable.folder_md).create().show();
+		.setIcon(R.drawable.grid_folder).create().show();
 	}
 
 	

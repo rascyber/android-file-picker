@@ -22,16 +22,15 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 		super(context, R.layout.shortcut_item, shortcuts);
 		this.context = context;
 		shortcuts.clear();
-		addShortcut("Up one directory", R.drawable.drive,  Type.UP_DIRECTORY, null);
-		addShortcut("Filesystem",       R.drawable.drive,  Type.ORDINARY_DIR, "/");
-		addShortcut("SD card",          R.drawable.sdcard, Type.ORDINARY_DIR, "/mnt/sdcard");
-		addShortcut("External SD card", R.drawable.sdcard, Type.ORDINARY_DIR, "/mnt/external_sd");
-		addShortcut("USB Stick",        R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/usbdrive");
-		addShortcut("Downloads",        R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Download");
-		addShortcut("Music",            R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Music");
-		addShortcut("Movies",           R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Movies");
-		addShortcut("Pictures",         R.drawable.drive,  Type.ORDINARY_DIR, "/mnt/sdcard/Pictures");
-     // addShortcut("Search",           R.drawable.drive,  Type.SEARCH,       null);
+		addShortcut("Up one directory", R.drawable.shortcut_folder, Type.UP_DIRECTORY, null);
+		addShortcut("Filesystem",       R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/");
+		addShortcut("SD card",          R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/sdcard");
+		addShortcut("External SD card", R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/external_sd");
+		addShortcut("USB Stick",        R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/usbdrive");
+		addShortcut("Downloads",        R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Download");
+		addShortcut("Music",            R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Music");
+		addShortcut("Movies",           R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Movies");
+		addShortcut("Pictures",         R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Pictures");
 	}
 	
 	private void addShortcut(String title, int icon, Type type, String dirname) {
