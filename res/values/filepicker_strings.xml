@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filepicker_name">File picker</string>
+    <string name="filepicker_new_folder_header">Name:</string>
+    <string name="filepicker_new_folder_ok">Create</string>
+    <string name="filepicker_new_folder_cancel">Cancel</string>
+</resources>

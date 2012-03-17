@@ -19,18 +19,18 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
 	private Context context;
 	
 	public ShortcutAdapter(Context context) {
-		super(context, R.layout.shortcut_item, shortcuts);
+		super(context, R.layout.filepicker_shortcut_item, shortcuts);
 		this.context = context;
 		shortcuts.clear();
-		addShortcut("Up one directory", R.drawable.shortcut_folder, Type.UP_DIRECTORY, null);
-		addShortcut("Filesystem",       R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/");
-		addShortcut("SD card",          R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/sdcard");
-		addShortcut("External SD card", R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/external_sd");
-		addShortcut("USB Stick",        R.drawable.shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/usbdrive");
-		addShortcut("Downloads",        R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Download");
-		addShortcut("Music",            R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Music");
-		addShortcut("Movies",           R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Movies");
-		addShortcut("Pictures",         R.drawable.shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Pictures");
+		addShortcut("Up one directory", R.drawable.filepicker_shortcut_folder, Type.UP_DIRECTORY, null);
+		addShortcut("Filesystem",       R.drawable.filepicker_shortcut_folder, Type.ORDINARY_DIR, "/");
+		addShortcut("SD card",          R.drawable.filepicker_shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/sdcard");
+		addShortcut("External SD card", R.drawable.filepicker_shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/external_sd");
+		addShortcut("USB Stick",        R.drawable.filepicker_shortcut_sdcard, Type.ORDINARY_DIR, "/mnt/usbdrive");
+		addShortcut("Downloads",        R.drawable.filepicker_shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Download");
+		addShortcut("Music",            R.drawable.filepicker_shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Music");
+		addShortcut("Movies",           R.drawable.filepicker_shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Movies");
+		addShortcut("Pictures",         R.drawable.filepicker_shortcut_folder, Type.ORDINARY_DIR, "/mnt/sdcard/Pictures");
 	}
 	
 	private void addShortcut(String title, int icon, Type type, String dirname) {
@@ -58,13 +58,13 @@ public class ShortcutAdapter extends ArrayAdapter<Shortcut> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View layout;
         if (convertView == null) {
-            layout = LayoutInflater.from(context).inflate(R.layout.shortcut_item, parent, false);
+            layout = LayoutInflater.from(context).inflate(R.layout.filepicker_shortcut_item, parent, false);
         } else {
             layout = convertView;
         }
-        TextView title = (TextView) layout.findViewById(R.id.shortcut_title);
-        ImageView icon = (ImageView) layout.findViewById(R.id.shortcut_icon);
-        ImageView indicator = (ImageView) layout.findViewById(R.id.shortcut_indicator);
+        TextView title = (TextView) layout.findViewById(R.id.filepicker_shortcut_title);
+        ImageView icon = (ImageView) layout.findViewById(R.id.filepicker_shortcut_icon);
+        ImageView indicator = (ImageView) layout.findViewById(R.id.filepicker_shortcut_indicator);
 
         Shortcut shortcut = getItem(position);
         title.setText(shortcut.title);

@@ -35,6 +35,36 @@ import name.vbraun.filepicker.Shortcut.Type;
 public class FilePickerActivity extends Activity implements OnItemClickListener {
 	private final static String TAG = "FilePickerActivity";
 
+	/**
+     * Activity Action: Pick a file through the file manager, or let user
+     * specify a custom file name.
+     * Data is the current file name or file name suggestion.
+     * Returns a new file name as file URI in data.
+     * 
+     * <p>Constant filepicker_Value: "org.openintents.action.PICK_FILE"</p>
+     */
+    public static final String ACTION_PICK_FILE = "org.openintents.action.PICK_FILE";
+
+    /**
+     * Activity Action: Pick a directory through the file manager, or let user
+     * specify a custom file name.
+     * Data is the current directory name or directory name suggestion.
+     * Returns a new directory name as file URI in data.
+     * 
+     * <p>Constant Value: "org.openintents.action.PICK_DIRECTORY"</p>
+     */
+    public static final String ACTION_PICK_DIRECTORY = "org.openintents.action.PICK_DIRECTORY";
+    		
+    /**
+     * The title to display.
+     * 
+     * <p>This is shown in the title bar of the file manager.</p>
+     * 
+     * <p>Constant Value: "org.openintents.extra.TITLE"</p>
+     */
+    public static final String EXTRA_TITLE = "org.openintents.extra.TITLE";
+
+	
 	protected static File currentDir;
 	
 	private Menu menu;
@@ -57,31 +87,47 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.file_picker_main);
+        setContentView(R.layout.filepicker_main);
         
         if (currentDir == null)
         	currentDir = new File("/mnt/sdcard");
         
-        search = (SearchView) findViewById(R.id.search);
-        shortcutList = (ListView) findViewById(R.id.dir_shortcut_list);
+        search = (SearchView) findViewById(R.id.filepicker_search);
+        shortcutList = (ListView) findViewById(R.id.filepicker_dir_shortcut_list);
         shortcutAdapter = new ShortcutAdapter(getApplicationContext());
         shortcutList.setAdapter(shortcutAdapter);
         shortcutList.setOnItemClickListener(this);
         
-        dirBreadcrumbScroll = (ScrollView) findViewById(R.id.dir_breadcrumbs);
+        dirBreadcrumbScroll = (ScrollView) findViewById(R.id.filepicker_dir_breadcrumbs);
         
-        dirNameDisplay = (TextView) findViewById(R.id.dir_name_display);
+        dirNameDisplay = (TextView) findViewById(R.id.filepicker_dir_name_display);
         
         fileList = new DirList();
-        fileGrid = (GridView) findViewById(R.id.file_grid);
+        fileGrid = (GridView) findViewById(R.id.filepicker_file_grid);
         fileAdapter = new DirListAdapter(getApplicationContext(), fileList);
         fileGrid.setOnItemClickListener(this);
         fileGrid.setAdapter(fileAdapter);
-    }
+        
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (action.equals(ACTION_PICK_FILE)) {
+        	canSelectFile = true;
+        	canSelectDirectory = false;
+        	// mFilterFiletype = intent.getStringExtra("FILE_EXTENSION");
+            // mFilterMimetype = intent.getType();
+        } else if (action.equals(ACTION_PICK_DIRECTORY)) {
+        	canSelectFile = false;
+        	canSelectDirectory = true;                                                      
+        	// mWritableOnly = intent.getBooleanExtra(FileManagerIntents.EXTRA_WRITEABLE_ONLY, false);
+        }
+        
+        String title = intent.getStringExtra(EXTRA_TITLE);
+        Log.e(TAG, "title="+title);
+        if (title != null) setTitle(title);
+	}
 	
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
-		Log.d(TAG, "onItemClick "+pos);
 		if (adapter.equals(shortcutList)) {
 			Shortcut shortcut = shortcutAdapter.getItem(pos);
 			switch (shortcut.type) {
@@ -107,12 +153,12 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 	
 	public void newFolder() {
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.new_folder_dialog, null);
+		View view = inflater.inflate(R.layout.filepicker_new_folder_dialog, null);
 		
-		final EditText text = (EditText)view.findViewById(R.id.new_folder_text);
+		final EditText text = (EditText)view.findViewById(R.id.filepicker_new_folder_text);
 
 		new AlertDialog.Builder(this)
-		.setPositiveButton(R.string.new_folder_ok, new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.filepicker_new_folder_ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String name = text.getText().toString();				
@@ -127,7 +173,7 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 				dialog.dismiss();
 			}
 		})
-		.setNegativeButton(R.string.new_folder_cancel, new DialogInterface.OnClickListener() {
+		.setNegativeButton(R.string.filepicker_new_folder_cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -135,7 +181,7 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 		})
 		.setView(view)
 		.setTitle("Create new folder")
-		.setIcon(R.drawable.grid_folder).create().show();
+		.setIcon(R.drawable.filepicker_grid_folder).create().show();
 	}
 
 	
@@ -144,9 +190,9 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.filepicker_menu, menu);
         if (!canSelectDirectory) {
-        	MenuItem select = menu.findItem(R.id.select_folder);
+        	MenuItem select = menu.findItem(R.id.filepicker_select_folder);
         	select.setVisible(false);
         }
     	return true;
@@ -155,17 +201,16 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    	case android.R.id.home:
-    		finish();
-    		return true;
-    	case R.id.select_folder:
-    		pickFile(currentDir);
-    		return true;
-    	case R.id.new_folder:
-    		newFolder();
-    		return true;
-    	}
+    	if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
+		} else if (item.getItemId() == R.id.filepicker_select_folder) {
+			pickFile(currentDir);
+			return true;
+		} else if (item.getItemId() == R.id.filepicker_new_folder) {
+			newFolder();
+			return true;
+		}
     	return super.onOptionsItemSelected(item);
     }
     
@@ -186,7 +231,11 @@ public class FilePickerActivity extends Activity implements OnItemClickListener 
         	Toast.makeText(getApplicationContext(), "Cannot select an ordinary file.", Toast.LENGTH_LONG).show();
         	return;
     	}
-    	Toast.makeText(getApplicationContext(), "Picked "+file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        Intent intent = getIntent();
+        intent.setData(Uri.fromFile(file));
+        setResult(RESULT_OK, intent);
+        finish();
+        // Toast.makeText(getApplicationContext(), "Picked "+file.getAbsolutePath(), Toast.LENGTH_LONG).show();
     }
     
     private void openDirectory(File dir) {

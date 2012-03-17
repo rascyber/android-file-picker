@@ -8,13 +8,12 @@ public class DirListEntry {
 		this.file = file;
 		title = file.getName();
 		if (file.isDirectory())
-			icon = R.drawable.grid_folder;
+			icon = R.drawable.filepicker_grid_folder;
 		else
-			icon = R.drawable.grid_file;
+			icon = R.drawable.filepicker_grid_file;
 	}
 	
 	protected String title;
 	protected int icon;
 	protected File file;
-	
 }
