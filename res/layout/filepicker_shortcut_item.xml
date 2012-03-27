@@ -6,28 +6,28 @@
 
     <ImageView
         android:id="@+id/filepicker_shortcut_icon"
-        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/filepicker_shortcut_height"
+        android:gravity="center_vertical"
         android:paddingRight="8dp"
         android:src="@drawable/filepicker_shortcut_folder" />
 
     <TextView
         android:id="@+id/filepicker_shortcut_title"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="@dimen/filepicker_shortcut_height"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="Large Text"
-        android:textColor="@color/filepicker_black"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    <ImageView 
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/filepicker_black" />
+
+    <ImageView
         android:id="@+id/filepicker_shortcut_indicator"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/filepicker_shortcut_height"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/filepicker_indicator" />       
-        />
+        android:src="@drawable/filepicker_indicator" />
+
 
 </LinearLayout>
